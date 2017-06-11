@@ -3,6 +3,18 @@
  */
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
+// const Account = require('./Account')
+const AccountSchema = new Schema({
+  currency: {
+    type: String
+  },
+  balance: {
+    type: String
+  },
+  locked: {
+    type: String
+  }
+})
 const MemberSchema = new Schema({
   sn: {
     type: String
@@ -16,8 +28,6 @@ const MemberSchema = new Schema({
   activated: {
     type: Boolean
   },
-  accounts: {
-    type: [{type: Schema.Types.objectId, ref: 'Account'}]
-  }
+  accounts: [AccountSchema]
 })
-module.exports = mongoose.model('Member',MemberSchema)
+module.exports = mongoose.model('Member', MemberSchema)

@@ -2,7 +2,7 @@
  * Created by yq123 on 2017/6/9.
  */
 const crypto = require('crypto')
-const pwd = require('../../pwd')
+const pwd = require('../pwd')
 const queryString = require('querystring')
 module.exports = function (method, api, params) {
   const tonce = new Date().getTime()
@@ -19,7 +19,6 @@ module.exports = function (method, api, params) {
   }))
   const payload = `${method}|${api}|${queryString.stringify(paramObj)}`
   const sign = crypto.createHmac('sha256', pwd.SECRET_KEY).update(payload).digest('hex')
-  sails.log.info(tonce, payload, sign)
   return {
     signature: sign,
     tonce,
