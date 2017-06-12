@@ -16,17 +16,17 @@ module.exports = function () {
   //     })
   //   })
   //   .catch(err => console.error(err))
-  // ApiService.getMyTrades('etccny', {limit: 10})
-  //   .then(data => {
-  //     Trade.findOneAndUpdate({id: data.id}, data, (err, trade) => {
-  //       if (err) console.error(err)
-  //       console.log('trade', trade)
-  //     })
-  //   })
-  //   .catch(err => console.error(err))
-  ApiService.createOrder('etccny', 'sell', '1', '200')
+  ApiService.getMyTrades('etccny', {limit: 10})
     .then(data => {
-      console.log(data)
+      Trade.findOneAndUpdate({id: data.id}, data, (err, trade) => {
+        if (err) console.error(err)
+        console.log('trade', trade)
+      })
     })
     .catch(err => console.error(err))
+  // ApiService.createOrder('etccny', 'sell', '1', '200')
+  //   .then(data => {
+  //     console.log(data)
+  //   })
+  //   .catch(err => console.error(err))
 }

@@ -12,11 +12,20 @@ module.exports = function (method, api, params) {
     for (const k of Object.keys(o).sort()) p[k] = o[k];
     return p
   }
-
-  const paramObj = sorted(Object.assign({}, params, {
+  function getParams(params) {
+    let obj = {}
+    _.keys(params).forEach(key => {
+      if (!_.isUndefined(params[key])) {
+        obj[key] = params[key]
+      }
+    })
+    return obj
+  }
+  let paramObj = sorted(Object.assign({}, params, {
     access_key: pwd.ACCESS_KEY,
     tonce
   }))
+
   const payload = `${method}|${api}|${queryString.stringify(paramObj)}`
   const sign = crypto.createHmac('sha256', pwd.SECRET_KEY).update(payload).digest('hex')
   return {

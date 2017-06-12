@@ -10,7 +10,13 @@ module.exports = {
     return `${urlPrefix}/${api}`
   },
   _getParams(params) {
-    return params = _.filter(params, key => !_.isUndefined(key))
+    let obj = {}
+    _.keys(params).forEach(key => {
+      if (!_.isUndefined(params[key])) {
+        obj[key] = params[key]
+      }
+    })
+    return obj
   },
   generateSign(method, api, params) {
     return SignService(method.toUpperCase(), api, params)
@@ -46,6 +52,7 @@ module.exports = {
   post(api, params) {
     return new Promise((resolve, reject) => {
       console.info('POST', this._getUrl(api))
+      params = this._getParams(Object.assign({}, params, this.generateSign('POST', api, params)))
       // fixme formdata
       request.post(
         {
@@ -53,7 +60,7 @@ module.exports = {
           headers: {
             'Accept': 'application/json'
           },
-          formData: Object.assign({}, params, this.generateSign('POST', api, params))
+          formData: params
         }, (err, res, body) => {
           if (err) {
             console.info('POST', this._getUrl(api), err)
