@@ -28,6 +28,7 @@ module.exports = function (method, api, params) {
 
   const payload = `${method}|${api}|${queryString.stringify(paramObj)}`
   const sign = crypto.createHmac('sha256', pwd.SECRET_KEY).update(payload).digest('hex')
+  // console.log(crypto.createHmac('sha256','yyy').update("GET|/api/v2/markets|access_key=xxx&foo=bar&tonce=123456789").digest('hex'))
   return {
     signature: sign,
     tonce,
